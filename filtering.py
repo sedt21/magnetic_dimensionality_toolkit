@@ -5,7 +5,7 @@ import networkx as nx
 from pymatgen import Structure
 from pymatgen.io.cif import CifParser
 from pymatgen.analysis.bond_valence import BVAnalyzer
-from pymatgen.analysis.structure_analyzer import VoronoiCoordFinder
+from pymatgen.analysis.local_env import VoronoiNN
 import re, time, argparse
 from multiprocessing import Pool
 from itertools import product
@@ -396,7 +396,7 @@ class Filtering:
                     bonded_vectors[str_formula] = [coords[n] - self.structure.lattice.get_cartesian_coords(self.frac_coords[loc]) for n in range(len(coords))]
                     bonded_rank[str_formula] = np.linalg.matrix_rank(bonded_vectors[str_formula])
 
-                    vcf = VoronoiCoordFinder(self.structure)
+                    vcf = VoronoiNN(self.structure)
 
                     # paymetgen coordination
                     pymatgen_coordination[str_formula] = self.pymatgen_coordination(vcf, loc)
